@@ -23,8 +23,17 @@ class Table extends Component {
     );
 
     return (
-      <table>
-        {rows}
+      <table className="table-scroll">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows}
+        </tbody>
       </table>
     );
   }
@@ -40,10 +49,11 @@ export default class PageUsers extends Component {
   };
   componentDidMount() {
       const _this = this;
+
       axios
       .get("http://localhost.lumenoauth/users")
       .then(function(result) {
-        console.log(result.data.data);
+        //console.log(result.data.data);
         _this.setState({
           users: result.data.data
         });
@@ -84,7 +94,6 @@ export default class PageUsers extends Component {
         <TabPanel>
           <div className="row">
             <div className="small-12 columns">
-              Users table here.
               <Table data={this.state.users}/>
             </div>
           </div>

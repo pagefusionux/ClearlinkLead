@@ -1,8 +1,8 @@
 const config = () => {
   return {
-    apiUrl: 'http://localhost.lumenoauth/oauth/access_token', // API URL for receiving new token
-    clientId: 'id0',
-    clientSecret: 'secret0'
+    apiUrl: process.env.API_URL, // API URL for receiving new token
+    clientId: process.env.CLIENT_ID,
+    clientSecret: process.env.CLIENT_SECRET
   }
 };
 

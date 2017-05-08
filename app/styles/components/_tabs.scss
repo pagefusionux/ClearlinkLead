@@ -1,0 +1,63 @@
+.ReactTabs {
+  &__TabList {
+    background-color: #eee;
+    border-bottom: 1px solid #ddd !important;
+    margin: 0 0 10px;
+    padding: 5px 0 0 !important;
+  }
+
+  &__Tab {
+    display: inline-block;
+    border: 1px solid transparent;
+    border-bottom: none;
+    bottom: -1px;
+    position: relative;
+    list-style: none;
+    padding: 6px 12px;
+    margin: 0 5px !important;
+    cursor: pointer;
+    font-size: 12px;
+
+    &.--selected {
+      background: #fff;
+      border-color: #ddd !important;
+      color: black;
+      border-radius: 5px 5px 0 0;
+    }
+    &:focus {
+      box-shadow: 0 0 5px hsl(0, 0%, 87%) !important;
+      border-color: #ddd !important;
+      outline: none;
+
+      &:after {
+        content: "";
+        position: absolute;
+        height: 5px;
+        left: -4px;
+        right: -4px;
+        bottom: -5px;
+        background: #fff;
+      }
+    }
+  }
+
+  &__TabPanel {
+    display: none;
+
+    &--selected {
+      display: block;
+    }
+
+    &--disabled {
+      color: GrayText;
+      cursor: default;
+    }
+  }
+}
+
+.react-tabs [role=tab][aria-selected=true] {
+  background: #fff;
+  border-color: #ddd !important;
+  color: black;
+  border-radius: 5px 5px 0 0;
+}

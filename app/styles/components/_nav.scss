@@ -1,0 +1,48 @@
+.title-bar {
+  display: flex;
+  justify-content: space-between;
+  background: #008BD1;
+}
+
+.title-menu {
+  width: 60px;
+}
+
+.title-space {
+  width: 100%;
+}
+
+.title-bar-title {
+  width: 200px;
+  button {
+    color: #B4DDF1;
+  }
+}
+
+.top-bar {
+  background-color: #008BD1;
+
+  ul {
+    background-color: inherit;
+  }
+
+  .top-bar-left {
+    li > a.active {
+      color: #b4ddf1;
+    }
+    li > a {
+      color: #b4ddf1;
+    }
+  }
+
+  .top-bar-right {
+
+    .cl-logo {
+      height: 20px;
+    }
+
+    button {
+      color: #b4ddf1;
+    }
+  }
+}

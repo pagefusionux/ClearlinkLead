@@ -3,7 +3,7 @@ import alt from 'app/alt';
 class UserActions {
   constructor() {
     this.generateActions(
-      'viewAll'
+      'getUsers'
     );
   }
 }

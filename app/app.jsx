@@ -2,7 +2,7 @@
 
 import React from 'react';
 import ReactDOM  from 'react-dom';
-import {Route, Router, browserHistory} from 'react-router';
+import {Route, Router} from 'react-router';
 import axios from 'axios';
 import history from 'app/history';
 
@@ -53,7 +53,7 @@ require('style!css!sass!applicationStyles');
 
 // router implementation
 ReactDOM.render(
-  <Router history={browserHistory}>
+  <Router history={history}>
     <Route component={Dashboard} onEnter={requireLogin}>
       <Route path="/" component={PageUsers}/>
       <Route path="/page2" component={Page2}/>

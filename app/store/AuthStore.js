@@ -11,73 +11,53 @@ class AuthStore {
   constructor() {
     this.bindActions(AuthActions);
 
-    // State
+    // state
     this.accessToken = null;
     this.refreshToken = null;
     this.user = null;
     this.error = null;
   }
 
-  /**
-   * Login handler
-   * @param credentials
-   */
+  // handle login
   onLogin(credentials) {
     axios
-      //.get(this.getAuthEndpoint('password') + '&username=' + credentials.username + '&password=' + credentials.password)
-    // return Config.apiUrl + '?client_id=' + Config.clientId + '&client_secret=' + Config.clientSecret + '&grant_type=' + grantType;
-      .post(Config.apiUrl, {
-        client_id: Config.clientId,
-        client_secret: Config.clientSecret,
-        grant_type: 'password',
-        username: credentials.username,
-        password: credentials.password
-      }).then(response => {
+      .post(Config.apiUrl, this.getAuthEndpoint('password', credentials)).then(response => {
         this.saveTokens(response.data);
 
         console.log("API Auth Response:", response.data);
 
         return axios.get(Config.apiUrl + '/me');
-      })
-      .then(response => {
+      }).then(response => {
 
         console.log("/me response: ", response.data.data);
 
         this.loginSuccess(response.data.data);
-      })
-      .catch(response => {
+      }).catch(response => {
+        console.log('Error pass.');
         this.loginError(response);
       });
   }
 
-  /**
-   * Process login success
-   * @param user
-   */
+  // handle login success
   loginSuccess(user) {
 
     localStorage.setItem('user', JSON.stringify(user));
-
     this.setState({ user: user });
 
     console.log("User authenticated: ", user);
 
     history.replaceState(null, '/');
-    //hashHistory.push('/');
   }
 
-  /**
-   * Handle login error
-   * @param response
-   */
+
+  // handle login error
   loginError(response) {
-    console.log("There was some sort of login error.");
+    console.log("API error:", response);
     this.setState({ accessToken: null, refreshToken: null, error: 'Login Failed', user: null});
   }
 
-  /**
-   * Try to connect user from local storage
-   */
+
+  // try to connect to user from local storage
   onLocalLogin() {
     let accessToken = localStorage.getItem('access_token');
     let refreshToken = localStorage.getItem('refresh_token');
@@ -89,9 +69,8 @@ class AuthStore {
     }
   }
 
-  /**
-   * Try to refresh user access token
-   */
+
+  // try to refresh user access token
   onRefreshToken(params) {
     let refreshToken = localStorage.getItem('refresh_token');
 
@@ -115,9 +94,7 @@ class AuthStore {
     }
   }
 
-  /**
-   * Logout user
-   */
+  // handle user logout
   onLogout() {
     localStorage.clear();
 
@@ -125,16 +102,13 @@ class AuthStore {
 
     axios.interceptors.request.eject(InterceptorUtil.getInterceptor());
 
-    console.log('User logged out.');
+    console.log('User is logged out.');
 
     history.replaceState(null, '/login');
-    //hashHistory.push('/login');
   }
 
-  /**
-   * Save tokens in local storage and automatically add token within request
-   * @param params
-   */
+
+  // save tokens in local storage and automatically add token within request (via interceptor util)
   saveTokens(params) {
     const {access_token, refresh_token} = params;
 
@@ -142,23 +116,25 @@ class AuthStore {
     localStorage.setItem('refresh_token', refresh_token);
     this.setState({ accessToken: access_token, refreshToken: refresh_token, error: null});
 
-    // Automatically add access token
+    // automatically add access token
     const interceptor = axios.interceptors.request.use((config) => {
       config.url = new Uri(config.url).addQueryParam('access_token', access_token);
       return config;
     });
 
-    InterceptorUtil.setInterceptor(interceptor)
+    InterceptorUtil.setInterceptor(interceptor);
   }
 
-  /**
-   * Return API endpoint with given grant type (default password)
-   * @param grantType
-   * @returns {string}
-   */
-  getAuthEndpoint(grantType='password') {
-    //return Config.apiUrl + '/oauth/v2/token?client_id=' + Config.clientId + '&client_secret=' + Config.clientSecret + '&grant_type=' + grantType;
-    return Config.apiUrl + '?client_id=' + Config.clientId + '&client_secret=' + Config.clientSecret + '&grant_type=' + grantType;
+
+  // return API endpoint with given grant type
+  getAuthEndpoint(grantType='password', credentials) {
+    return {
+      client_id: Config.clientId,
+      client_secret: Config.clientSecret,
+      grant_type: grantType,
+      username: credentials.username,
+      password: credentials.password
+    }
   }
 }
 

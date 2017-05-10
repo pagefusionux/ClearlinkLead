@@ -1,48 +1,67 @@
 .title-bar {
-  display: flex;
-  justify-content: space-between;
-  background: #008BD1;
+  display: table;
+  width: 100%;
+  background-color: $deepskyblue;
+  border-bottom: 3px solid $pictonblue;
 }
 
 .title-menu {
+  display: table-cell;
   width: 60px;
 }
 
-.title-space {
-  width: 100%;
-}
-
 .title-bar-title {
-  width: 200px;
+  width: 100%;
+  display: table-cell;
+
   button {
-    color: #B4DDF1;
+    color: $white;
+  }
+
+  img {
+    float: right;
   }
 }
 
 .top-bar {
-  background-color: #008BD1;
+  background-color: $deepskyblue;
+  border-bottom: 3px solid $pictonblue;
+  padding: 0 !important;
 
   ul {
     background-color: inherit;
   }
 
   .top-bar-left {
+
+    .menu > li > a {
+      line-height: inherit !important;
+    }
+
     li > a.active {
-      color: #b4ddf1;
+      color: $white;
+      font-weight: bold;
     }
     li > a {
-      color: #b4ddf1;
+      color: $white;
     }
   }
 
   .top-bar-right {
-
-    .cl-logo {
-      height: 20px;
+    .menu {
+      .menu-text {
+        line-height: inherit !important;
+      }
     }
-
     button {
-      color: #b4ddf1;
+      cursor: pointer;
+      color: $pictonblue;
+
+      i {
+        font-size: 16px;
+        margin-right: 2px;
+        vertical-align: -3px;
+      }
     }
   }
 }

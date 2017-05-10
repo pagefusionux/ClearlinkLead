@@ -33,11 +33,9 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-        API_KEY: JSON.stringify(process.env.API_KEY),
-        AUTH_DOMAIN: JSON.stringify(process.env.AUTH_DOMAIN),
-        DATABASE_URL: JSON.stringify(process.env.DATABASE_URL),
-        PROJECT_ID: JSON.stringify(process.env.PROJECT_ID),
-        STORAGE_BUCKET: JSON.stringify(process.env.STORAGE_BUCKET),
+        API_URL: JSON.stringify(process.env.API_URL),
+        CLIENT_ID: JSON.stringify(process.env.CLIENT_ID),
+        CLIENT_SECRET: JSON.stringify(process.env.CLIENT_SECRET),
       }
     })
   ],
@@ -55,9 +53,6 @@ module.exports = {
     alias: {
       app: 'app', // the alias to end all aliases
       applicationStyles: 'app/styles/app.scss',
-      actions: 'app/actions/actions.jsx',
-      reducers: 'app/reducers/reducers.jsx',
-      configureStore: 'app/store/configureStore.jsx',
     },
     extensions: ['', '.js', '.jsx']
   },
@@ -89,7 +84,10 @@ module.exports = {
   devServer: {
     historyApiFallback: true
   },
-  devtool: process.env.NODE_ENV === 'production' ? undefined : 'cheap-module-eval-source-map'
+  node: {
+    fs: 'empty'
+  },
+  //devtool: process.env.NODE_ENV === 'production' ? undefined : 'cheap-module-eval-source-map'
 };
 
 // $ NODE_ENV=production webpack -p

@@ -1,21 +1,7 @@
 import React, {Component} from 'react';
-
-import AuthStore from 'app/store/AuthStore';
-import AuthActions from 'app/actions/AuthActions';
-import connectToStores from 'alt/utils/connectToStores';
-
 import Nav from 'Nav';
 
-export class Dashboard extends Component {
-  static getStores() {
-    return [AuthStore];
-  }
-  static getPropsFromStores() {
-    return AuthStore.getState();
-  }
-  onClickLogout() {
-    AuthActions.logout();
-  }
+export default class Dashboard extends Component {
   render () {
     return (
       <div>
@@ -26,4 +12,3 @@ export class Dashboard extends Component {
   }
 }
 
-export default connectToStores(Dashboard);

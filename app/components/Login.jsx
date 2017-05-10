@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-
 import AuthStore from 'app/store/AuthStore';
 import AuthActions from 'app/actions/AuthActions';
 import connectToStores from 'alt/utils/connectToStores';
@@ -25,18 +24,20 @@ export class Login extends Component {
 
     return (
       <div>
-        <h1 className="page-title">Clearlink Lead</h1>
+        <div className="login-logo"><img src="images/app-logo.svg" alt="Clearlink Lead"/></div>
 
           <div className="row">
             <div className="columns small-centered small-10 medium-6 large-4">
-              <div className="login-container">
+              <div className="login-top">
                 <label>Username
                   <input type="text" ref="usernameInput" placeholder="Username"/>
                 </label>
                 <label>Password
                   <input type="password" ref="passwordInput" placeholder="Password"/>
                 </label>
-                <button className="button" onClick={this.onClickLogin.bind(this)}>Login</button>
+              </div>
+              <div className="login-bottom text-right">
+                <button className="button expanded" onClick={this.onClickLogin.bind(this)}>Login</button>
                 {divError}
               </div>
             </div>

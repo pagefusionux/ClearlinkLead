@@ -13,4 +13,9 @@
 * */
 
 import Alt from 'alt';
-export default new Alt();
+const alt = new Alt();
+
+const chromeDebug = require('alt/utils/chromeDebug');
+chromeDebug(alt);
+
+export default alt;

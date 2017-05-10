@@ -1,8 +1,11 @@
 import React, {Component} from 'react';
-import {Link, IndexLink} from 'react-router';
+import {Router, Link} from 'react-router';
 import AuthActions from 'app/actions/AuthActions';
 
 export default class Nav extends Component {
+  constructor(props) {
+    super(props);
+  }
   onClickLogout() {
     AuthActions.logout();
   }
@@ -19,9 +22,8 @@ export default class Nav extends Component {
           <div className="title-menu">
             <button className="menu-icon" type="button" data-toggle=""></button>
           </div>
-          <div className="title-space"></div>
           <div className="title-bar-title">
-            Clearlink Lead
+            <img className="cl-logo float-right" src="/images/toolbar-logo.svg" />
           </div>
         </div>
 
@@ -31,14 +33,14 @@ export default class Nav extends Component {
               {/*<li className="menu-text">App Name</li>*/}
               <li className="menu-text">
                 <button onClick={this.onClickLogout.bind(this)}>
-                  <i className="material-icons md-48">face</i>
+                  <i className="material-icons">exit_to_app</i> Logout
                 </button>
               </li>
-              <li className="menu-text"><img className="cl-logo" src="/images/cl-logo.png" /></li>
+              <li className="menu-text"><img className="cl-logo hide-for-small-only" src="/images/toolbar-logo.svg" /></li>
             </ul>
           </div>
           <div className="top-bar-left">
-            <ul className=" medium-horizontal vertical dropdown menu" data-responsive-menu="accordion medium-dropdown">
+            <ul className="medium-horizontal vertical dropdown menu" data-responsive-menu="accordion medium-dropdown">
               {/*
               <li className="has-submenu">
                 <Link to="/Page1" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>Page1</Link>

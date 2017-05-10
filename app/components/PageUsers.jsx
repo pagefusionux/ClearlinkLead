@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
-import axios from 'axios';
-//import ReactTable from 'react-table';
+import ReactDataGrid from 'react-data-grid';
+//import ReactDataGrid from 'react-data-grid/addons';
+import UserStore from 'app/store/UserStore';
+import UserActions from 'app/actions/UserActions';
+import connectToStores from 'alt/utils/connectToStores';
 import {Tab, Tabs, TabPanel, TabList} from 'react-tabs';
 
 Tabs.setUseDefaultStyles(0);
@@ -9,10 +12,21 @@ class Table extends Component {
   constructor(props) {
     super(props);
   }
+  static onClickEdit(id) {
+    console.log('Editing row with ID:', id);
+  }
+  static onClickDelete(id) {
+    console.log('Deleting row with ID:', id);
+  }
   render() {
     const {data} = this.props;
 
-    console.log("Data Array:", data);
+    /*
+     <td key={data.id}>
+     <a><i className="material-icons mode-blue">mode_edit</i></a>
+     <a><i className="material-icons mode-red">delete</i></a>
+     </td>
+     */
 
     const rows = data.map((data) =>
       <tr key={data.id}>
@@ -23,64 +37,78 @@ class Table extends Component {
     );
 
     return (
-      <table className="table-scroll">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Email</th>
-          </tr>
-        </thead>
-        <tbody>
-          {rows}
-        </tbody>
-      </table>
+      <div className="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Email</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rows}
+          </tbody>
+        </table>
+      </div>
     );
   }
 }
 
-export default class PageUsers extends Component {
-  constructor(props, context) {
-    super(props, context);
+class PageUsers extends Component {
+  constructor(props) {
+    super(props);
 
-    this.state = {
-      users: []
-    };
-  };
-  componentDidMount() {
-      const _this = this;
-
-      axios
-      .get("http://localhost.lumenoauth/users")
-      .then(function(result) {
-        //console.log(result.data.data);
-        _this.setState({
-          users: result.data.data
-        });
-      });
+    //this.state = UserStore.getState();
+    this.createRows();
+    this._columns = [
+      { key: 'id', name: 'ID' },
+      { key: 'name', name: 'Name' },
+      { key: 'email', name: 'Email' } ];
   }
-  componentWillUnmount() {
-    //this.serverRequest.abort();
+  static getStores() {
+    return [UserStore];
+  }
+  static getPropsFromStores() {
+    return {
+      users: UserStore.getState().users,
+      error: UserStore.getState().error
+    }
+  }
+  componentDidMount() {
+    UserActions.getUsers();
+  }
+  createRows() {
+    this._rows = this.props.users;
+  }
+  rowGetter(i) {
+    return this._rows[i];
   }
   render() {
 
-    const usersData = [
-      {
-        id: 1,
-        name: 'Chris Davis',
-        email: 'pagefusion@gmail.com'
-      },
-      {
-        id: 2,
-        name: 'David Wilkins',
-        email: 'david@onlinestore.com'
-      },
-      {
-        id: 3,
-        name: 'Vanessa Smith',
-        email: 'vanessa.smith@gmail.com',
-      }
-    ];
+    console.log("Users at render():", this.props.users);
+
+
+    if (this.props.error) {
+      return (
+        <div>{this.props.error}</div>
+      );
+    }
+
+
+    let tab1Output = '';
+    if (!this.props.users.length) {
+      tab1Output = <div className="loading"><img src="images/loading.svg" /></div>;
+    } else {
+      //tab1Output = <Table data={this.props.users}/>;
+      tab1Output = (
+        <ReactDataGrid
+        columns={this._columns}
+        rowGetter={this.rowGetter}
+        rowsCount={this._rows.length}
+        minHeight={500} />
+      );
+    }
 
     return (
     <div>
@@ -94,7 +122,7 @@ export default class PageUsers extends Component {
         <TabPanel>
           <div className="row">
             <div className="small-12 columns">
-              <Table data={this.state.users}/>
+              {tab1Output}
             </div>
           </div>
         </TabPanel>
@@ -117,3 +145,5 @@ export default class PageUsers extends Component {
     );
   }
 }
+
+export default connectToStores(PageUsers);

@@ -1,26 +1,22 @@
-'use strict';
-
 import React from 'react';
 import ReactDOM  from 'react-dom';
 import {Route, Router} from 'react-router';
 import axios from 'axios';
 import history from 'app/history';
-
 import AuthActions from 'app/actions/AuthActions';
-import AuthStore from 'app/store/AuthStore';
+import AuthStore from 'app/stores/AuthStore';
+import Wrapper from 'app/components/Wrapper';
+import Login from 'app/components/pages/Login';
+import Users from 'app/components/pages/Users';
+import Page2 from 'app/components/pages/Page2';
+import Page3 from 'app/components/pages/Page3';
+import Page4 from 'app/components/pages/Page4';
+import Page5 from 'app/components/pages/Page5';
 
-import Login from 'Login';
-import Dashboard from 'Dashboard';
-import PageUsers from 'PageUsers';
-import Page2 from 'Page2';
-import Page3 from 'Page3';
-import Page4 from 'Page4';
-import Page5 from 'Page5';
-
-// Try to connect user from local storage value
+// try to get user info from local storage value
 AuthActions.localLogin();
 
-// Handle API request errors
+// handle API requests involving rejected tokens
 axios.interceptors.response.use(response => {
   return response;
 }, error => {
@@ -35,7 +31,7 @@ axios.interceptors.response.use(response => {
   });
 });
 
-
+// handle routes requiring login
 const requireLogin = (nextState, replaceState) => {
   console.log(AuthStore.getState());
 
@@ -45,17 +41,17 @@ const requireLogin = (nextState, replaceState) => {
   }
 };
 
-// load Foundation (using style and css loaders)
+// load Foundation
 $(document).foundation();
 
-// app css
-require('style!css!sass!applicationStyles');
+// load base app css
+require('style!css!sass!app/styles/app.scss');
 
 // router implementation
 ReactDOM.render(
   <Router history={history}>
-    <Route component={Dashboard} onEnter={requireLogin}>
-      <Route path="/" component={PageUsers}/>
+    <Route component={Wrapper} onEnter={requireLogin}>
+      <Route path="/" component={Users}/>
       <Route path="/page2" component={Page2}/>
       <Route path="/page3" component={Page3}/>
       <Route path="/page4" component={Page4}/>

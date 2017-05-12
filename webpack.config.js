@@ -66,6 +66,7 @@ module.exports = {
         test: /\.jsx?$/,
         exclude: /(node_modules|bower_components|.idea)/
       },
+      /*
       {
         test: /\.(jpe?g|png|gif|svg)$/i,
         loaders: [
@@ -74,6 +75,7 @@ module.exports = {
           'image-webpack-loader?bypassOnDebug'
         ]
       }
+      */
     ]
   },
   sassLoader: {

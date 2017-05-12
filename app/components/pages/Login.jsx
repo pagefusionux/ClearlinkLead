@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import AuthStore from 'app/store/AuthStore';
+import AuthStore from 'app/stores/AuthStore';
 import AuthActions from 'app/actions/AuthActions';
 import connectToStores from 'alt/utils/connectToStores';
 

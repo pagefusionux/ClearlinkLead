@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import Nav from 'Nav';
+import Nav from 'app/components/ui/Nav';
 
-export default class Dashboard extends Component {
+export default class Wrapper extends Component {
   render () {
     return (
       <div>

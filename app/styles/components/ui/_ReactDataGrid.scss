@@ -1,0 +1,47 @@
+.react-grid-Container {
+  width: 100% !important;
+  border: none;
+
+  .react-grid-Main {
+    outline: none;
+  }
+
+  .react-grid-Header {
+    background: transparent !important;
+
+    .react-grid-HeaderRow {
+
+      .react-grid-HeaderCell {
+        background: #eee !important;
+        border-bottom: 3px solid #ddd;
+      }
+    }
+  }
+
+  .react-grid-Row {
+    background: #ddd !important;
+
+    &.react-grid-Row--even {
+      background: #fff !important;
+
+      .react-grid-Cell {
+        border-right: 1px solid #ddd;
+        background: transparent !important;
+      }
+    }
+
+    &.react-grid-Row--odd {
+      background: #efefef !important;
+
+      .react-grid-Cell {
+        border-right: 1px solid #ddd;
+        background: transparent !important;
+      }
+    }
+
+    .rdg-cell-expand {
+      right: 5px;
+    }
+
+  }
+}

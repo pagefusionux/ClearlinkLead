@@ -4,8 +4,9 @@ class UserActions {
   constructor() {
     this.generateActions(
       'getUsers',
-      'putUsers',
-      'expandRows'
+      'updateUsers',
+      'deleteUser',
+      'insertUser'
     );
   }
 }

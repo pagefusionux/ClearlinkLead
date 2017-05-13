@@ -1,20 +1,27 @@
 import React, {Component} from 'react';
-import ReactDataGrid from 'react-data-grid';
+import ReactTable from 'react-table';
 import UserStore from 'app/stores/UserStore';
 import UserActions from 'app/actions/UserActions';
 import connectToStores from 'alt/utils/connectToStores';
-
-//const data = require('json!app/components/tabs/Users/data.json');
+import FormUsers from 'app/components/forms/FormUsers';
 
 class Tab1 extends Component {
   constructor(props) {
     super(props);
 
-    this._columns = [
-      { key: 'id', name: 'ID', locked: true, width: 75 },
-      { key: 'name', name: 'Name', editable: true, resizable: true },
-      { key: 'email', name: 'Email', editable: true, resizable: true }
-    ];
+    this.columns = [{
+      Header: 'ID',
+      accessor: 'id',
+      maxWidth: '50'
+    },{
+      Header: 'Name',
+      accessor: 'name',
+      Footer: () => { return (<a onClick={this.addNewUser.bind(this)}>Add New User</a>) }
+    }, {
+      Header: 'Email',
+      accessor: 'email'
+    }];
+
   }
 
   static getStores() {
@@ -33,83 +40,18 @@ class Tab1 extends Component {
     UserActions.getUsers();
   }
 
-  getRows(i) {
-    return UserStore.getState().users[i];
-  }
-
-  getSubRowDetails(rowItem) {
-    let isExpanded = UserStore.getState().expanded[rowItem.name] ? UserStore.getState().expanded[rowItem.name] : false; // removed this.state.expanded
-    return {
-      group: rowItem.children && rowItem.children.length > 0,
-      expanded: isExpanded,
-      children: rowItem.children,
-      field: 'id',
-      treeDepth: rowItem.treeDepth || 0,
-      siblingIndex: rowItem.siblingIndex,
-      numberSiblings: rowItem.numberSiblings
-    };
-  }
-
-  updateSubRowDetails(subRows, parentTreeDepth) {
-    let treeDepth = parentTreeDepth || 0;
-    subRows.forEach((sr, i) => {
-      sr.treeDepth = treeDepth + 1;
-      sr.siblingIndex = i;
-      sr.numberSiblings = subRows.length;
-    });
-
-    return subRows;
-  }
-
-  onCellExpand(args) {
-    let rows = UserStore.getState().users.slice(0);
-    let rowKey = args.rowData.id;
-    let rowIndex = rows.indexOf(args.rowData);
-    let subRows = args.expandArgs.children;
-
-    let expanded = Object.assign({}, UserStore.getState().expanded);
-
-    if (expanded && !expanded[rowKey]) {
-      expanded[rowKey] = true;
-
-      let treeDepth = args.rowData.treeDepth || 0;
-      subRows.forEach((sr, i) => {
-        sr.treeDepth = treeDepth + 1;
-        sr.siblingIndex = i;
-        sr.numberSiblings = subRows.length;
-      });
-
-      rows.splice(rowIndex + 1, 0, ...subRows);
-    } else if (expanded[rowKey]) {
-      expanded[rowKey] = false;
-      rows.splice(rowIndex + 1, subRows.length);
-    }
-
+  addNewUser() {
     // update state
-    UserActions.expandRows({
-      users: rows,
-      expanded,
-      error: null
-    });
-  }
-
-  handleGridRowsUpdated({fromRow, toRow, updated}) {
-
-    // could we consolidate this to just update a single row via API (instead of the whole users array)?
-
-    // update state
-    UserActions.putUsers({
-      fromRow,
-      toRow,
-      updated,
+    UserActions.insertUser({
+      //index: this.props.data.row._index,
+      index: UserStore.getState().users.length,
       users: UserStore.getState().users
     });
   }
 
   render() {
 
-    //console.log("users[0] at render():", this.props.users[0]);
-    //console.log("userData:", this._rows[0]);
+    //console.log('users[0] at render():', this.props.users[0]);
 
     // default output
     let output = '';
@@ -127,15 +69,20 @@ class Tab1 extends Component {
     } else {
 
       output = (
-        <ReactDataGrid
-          enableCellSelect={true}
-          columns={this._columns}
-          rowGetter={this.getRows}
-          rowsCount={this.props.users.length}
-          //rowsCount={this._rows.length}
-          getSubRowDetails={this.getSubRowDetails}
-          onCellExpand={this.onCellExpand}
-          onGridRowsUpdated={this.handleGridRowsUpdated}/>
+        <div>
+          <ReactTable
+            className="-striped -highlight"
+            previousText="Back"
+            data={this.props.users}
+            columns={this.columns}
+            defaultPageSize={15}
+            SubComponent={(row) => {
+              return (
+                <FormUsers data={row} />
+              )
+            }}
+          />
+        </div>
       );
     }
 

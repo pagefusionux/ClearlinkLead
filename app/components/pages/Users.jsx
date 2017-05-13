@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {Tab, Tabs, TabPanel, TabList} from 'react-tabs';
 import Tab1 from 'app/components/tabs/Users/Tab1';
-//import Tab1 from 'app/components/tabs/Users/Tab1New';
 
 Tabs.setUseDefaultStyles(0);
 

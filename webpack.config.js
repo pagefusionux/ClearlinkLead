@@ -33,6 +33,7 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+        TOKEN_URL: JSON.stringify(process.env.TOKEN_URL),
         API_URL: JSON.stringify(process.env.API_URL),
         CLIENT_ID: JSON.stringify(process.env.CLIENT_ID),
         CLIENT_SECRET: JSON.stringify(process.env.CLIENT_SECRET),
@@ -66,16 +67,14 @@ module.exports = {
         test: /\.jsx?$/,
         exclude: /(node_modules|bower_components|.idea)/
       },
-      /*
       {
         test: /\.(jpe?g|png|gif|svg)$/i,
         loaders: [
           //'file-loader?hash=sha512&digest=hex&name=/public/images/[hash].[ext]',
-          'file-loader?name=/public/images/[name].[ext]',
+          'file-loader?emitFile=false&name=[path][name].[ext]',
           'image-webpack-loader?bypassOnDebug'
         ]
       }
-      */
     ]
   },
   sassLoader: {

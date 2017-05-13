@@ -21,19 +21,18 @@ class AuthStore {
   // handle login
   onLogin(credentials) {
     axios
-      .post(Config.apiUrl, this.getAuthEndpoint('password', credentials)).then(response => {
+      .post(Config.tokenUrl, this.getAuthEndpoint('password', credentials)).then(response => {
         this.saveTokens(response.data);
 
         console.log("API Auth Response:", response.data);
 
-        return axios.get(Config.apiUrl + '/me');
+        return axios.get(Config.tokenUrl + '/me');
       }).then(response => {
 
         console.log("/me response: ", response.data.data);
 
         this.loginSuccess(response.data.data);
       }).catch(response => {
-        console.log('Error pass.');
         this.loginError(response);
       });
   }

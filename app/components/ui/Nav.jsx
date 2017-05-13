@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Router, Link} from 'react-router';
+import {Link} from 'react-router';
 import AuthActions from 'app/actions/AuthActions';
 
 export default class Nav extends Component {

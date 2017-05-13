@@ -2,7 +2,8 @@ import axios from 'axios';
 import update from 'immutability-helper';
 import alt from 'app/alt';
 import UserActions from 'app/actions/UserActions';
-const data = require('json!app/components/tabs/Users/data.json');
+import Config from 'app/config';
+//const data = require('json!app/components/tabs/Users/data.json');
 
 
 class UserStore {
@@ -11,91 +12,168 @@ class UserStore {
 
     // state
     this.users = [];
-    this.expanded = {};
     this.error = null;
   }
 
   getUsers() {
     axios
-    .get("http://localhost.lumenoauth/users")
+    .get(`${Config.apiUrl}/users`)
     .then(response => {
       console.log("getAll(): ", response.data.data);
 
       setTimeout(() => { // simulate network latency
         this.setState({
-          users: data.data,
-          expanded: {},
+          users: response.data.data,
           error: null
         });
       }, 500);
 
     }).catch(response => {
-      this.setState({ users: null, expanded: null, error: response});
+      this.setState({
+        users: null,
+        error: response
+      });
     });
   }
 
-  // update entire users array
-  putUsers({fromRow, toRow, updated, users}) {
+
+  // update entire users array (new table)
+  updateUsers({index, updated, users}) {
 
     let rows = users.slice();
     let updatedRow = [];
     let rowToUpdate = [];
     let fields = {};
 
-    for (let i = fromRow; i <= toRow; i++) {
-      rowToUpdate = rows[i];
-      updatedRow = update(rowToUpdate, {$merge: updated});
-      rows[i] = updatedRow;
+    rowToUpdate = rows[index];
+    updatedRow = update(rowToUpdate, {$merge: updated});
+    rows[index] = updatedRow;
 
-      const accessToken = localStorage.getItem('access_token');
+    //console.log('updatedRow:', rows[index]);
 
-      // user fields to update
-      fields = {
-        id: rows[i].id,
-        name: rows[i].name,
-        email: rows[i].email,
-        _method: 'PUT'
-      };
+    const accessToken = localStorage.getItem('access_token');
 
-      // set axios auth header
-      const config = {
-        headers: {
-          'Authorization': `Bearer ${accessToken}`,
-          //'Content-Type': 'application/x-www-form-urlencoded'
-          //'Content-Type': 'multipart/form-data'
-          'Content-Type': 'application/json'
-        }
-      };
+    // user fields to send via API
+    fields = {
+      id: rows[index].id,
+      name: rows[index].name,
+      email: rows[index].email
+    };
 
-      // update row in users table
-      axios
-      .put(`http://localhost.lumenoauth/users/${fields.id}`, fields, config)
-      .then(response => {
-        console.log("API success:", response);
-      }).catch(response => {
-        return console.log("API error: ", response);
-      });
+    // set axios auth header
+    const config = {
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+        //'Content-Type': 'application/x-www-form-urlencoded'
+        //'Content-Type': 'multipart/form-data'
+        'Content-Type': 'application/json'
+      }
+    };
 
-      //console.log(`UserStore.js: Updated rows[${i}]:`, rows[i]);
-    }
+    // update row in users table
+    axios
+    .put(`${Config.apiUrl}/users/${fields.id}`, fields, config)
+    .then(response => {
+      console.log("API update success:", response);
+    }).catch(response => {
+      return console.log("API update error: ", response);
+    });
+
+    //console.log(`UserStore.js: Updated rows[${index}]:`, rows[index]);
 
     this.setState({
       users: rows,
-      expanded: {},
-      error: null
-    });
-
-  }
-
-  // expand rows
-  expandRows({users, expanded, error}) {
-    this.setState({
-      users,
-      expanded,
       error: null
     });
   }
 
-}
+
+  // delete user
+  deleteUser({index, users}) {
+
+    // get user id
+    const userId = users[index].id;
+
+    const accessToken = localStorage.getItem('access_token');
+
+    // set axios auth header
+    const config = {
+      headers: {
+        'Authorization': `Bearer ${accessToken}`
+      }
+    };
+
+    // delete row in users table
+    axios
+    .delete(`${Config.apiUrl}/users/${userId}`, config)
+    .then(response => {
+      console.log("API Delete success:", response);
+
+      users.splice(index, 1);
+
+      this.setState({
+        users,
+        error: null
+      });
+
+    }).catch(response => {
+      return console.log("API delete error: ", response);
+    });
+  }
+
+  // insert user
+  insertUser({index, users}) {
+
+    // get access token
+    const accessToken = localStorage.getItem('access_token');
+
+    const newNum = index + 1;
+
+    // user fields to update
+    const fields = {
+      name: 'New User ' + newNum,
+      email: 'new.user' + newNum + '@clearlink.com',
+      password: 'secret'
+    };
+
+    // set axios auth header
+    const config = {
+      headers: {
+        'Authorization': `Bearer ${accessToken}`
+        //'Content-Type': 'application/x-www-form-urlencoded'
+        //'Content-Type': 'multipart/form-data'
+        //'Content-Type': 'application/json'
+      }
+    };
+
+    // insert row in users table
+    axios
+    .post(`${Config.apiUrl}/users`, fields, config)
+    .then(response => {
+
+      console.log('API insert success (last insert id):', response.data.last_insert_id);
+
+      const updatedFields = {
+        id: response.data.last_insert_id,
+        ...fields
+      };
+
+      let rows = [...users];
+      rows.splice(index, 0, updatedFields);
+
+      this.setState({
+        users: rows,
+        error: null
+      });
+
+    }).catch(response => {
+      return console.log('API insert error: ', response);
+    });
+  }
+
+
+
+
+} // end class
 
 export default alt.createStore(UserStore, 'UserStore');

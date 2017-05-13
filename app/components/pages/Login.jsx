@@ -20,7 +20,7 @@ export class Login extends Component {
   }
 
   render () {
-    const divError = (AuthStore.getState().error) ? (<p>{AuthStore.getState().error}</p>) : null;
+    const divError = (AuthStore.getState().error) ? (<div className='login-error'>{AuthStore.getState().error}</div>) : null;
 
     return (
       <div>

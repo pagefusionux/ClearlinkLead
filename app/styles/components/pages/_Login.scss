@@ -2,6 +2,10 @@
   margin-top: 20px;
   padding: 2rem 0;
   text-align: center;
+
+  img {
+    max-width: 310px;
+  }
 }
 
 .login-top {
@@ -13,7 +17,7 @@
 }
 
 .login-bottom {
-  background-color: $greybg1;
+  background-color: $greybg3;
   border: 1px solid $greyline;
   border-top: 1px solid $white;
   border-bottom-left-radius: 5px;
@@ -22,6 +26,13 @@
 
   button {
     margin: 0;
+  }
+
+  .login-error {
+    width: 100%;
+    margin-top: 10px;
+    color: $dogwoodrose;
+    text-align: center;
   }
 
 }

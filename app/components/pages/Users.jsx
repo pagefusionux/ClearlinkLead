@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {Tab, Tabs, TabPanel, TabList} from 'react-tabs';
+
 import Tab1 from 'app/components/tabs/Users/Tab1';
+import Tab2 from 'app/components/tabs/Users/Tab2';
 
 Tabs.setUseDefaultStyles(0);
 
@@ -13,11 +15,8 @@ export default class Users extends Component {
     <div>
       <Tabs>
         <TabList>
-          <Tab>Team</Tab>
-          <Tab>Directors</Tab>
-          <Tab>OMM</Tab>
-          <Tab>PM</Tab>
-          <Tab>Other</Tab>
+          <Tab>All</Tab>
+          <Tab>Roles</Tab>
         </TabList>
 
         <TabPanel>
@@ -30,31 +29,11 @@ export default class Users extends Component {
         <TabPanel>
           <div className="row">
             <div className="small-12 columns">
-              Directors
+              <Tab2/>
             </div>
           </div>
         </TabPanel>
-        <TabPanel>
-          <div className="row">
-            <div className="small-12 columns">
-              OMM
-            </div>
-          </div>
-        </TabPanel>
-        <TabPanel>
-          <div className="row">
-            <div className="small-12 columns">
-              PM
-            </div>
-          </div>
-        </TabPanel>
-        <TabPanel>
-          <div className="row">
-            <div className="small-12 columns">
-              Other
-            </div>
-          </div>
-        </TabPanel>
+
       </Tabs>
     </div>
     );

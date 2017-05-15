@@ -8,6 +8,7 @@ import AuthStore from 'app/stores/AuthStore';
 import Wrapper from 'app/components/Wrapper';
 import Login from 'app/components/pages/Login';
 import Users from 'app/components/pages/Users';
+import ManageUserTypes from 'app/components/tabs/Users/Tab2';
 import Page2 from 'app/components/pages/Page2';
 import Page3 from 'app/components/pages/Page3';
 import Page4 from 'app/components/pages/Page4';
@@ -52,6 +53,7 @@ ReactDOM.render(
   <Router history={history}>
     <Route component={Wrapper} onEnter={requireLogin}>
       <Route path="/" component={Users}/>
+      <Route path="/ManageUserTypes" component={ManageUserTypes}/>
       <Route path="/page2" component={Page2}/>
       <Route path="/page3" component={Page3}/>
       <Route path="/page4" component={Page4}/>

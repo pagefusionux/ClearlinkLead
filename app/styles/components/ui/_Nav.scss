@@ -30,6 +30,12 @@
 
   ul {
     background-color: inherit;
+
+    .is-dropdown-submenu {
+      background-color: $deepskyblue;
+      border: none;
+      border-bottom: 3px solid $pictonblue;
+    }
   }
 
   .top-bar-left {

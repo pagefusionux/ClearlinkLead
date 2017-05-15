@@ -24,12 +24,12 @@ class AuthStore {
       .post(Config.tokenUrl, this.getAuthEndpoint('password', credentials)).then(response => {
         this.saveTokens(response.data);
 
-        console.log("API Auth Response:", response.data);
+        //console.log("API Auth Response:", response.data);
 
         return axios.get(Config.tokenUrl + '/me');
       }).then(response => {
 
-        console.log("/me response: ", response.data.data);
+        //console.log("/me response: ", response.data.data);
 
         this.loginSuccess(response.data.data);
       }).catch(response => {
@@ -52,7 +52,7 @@ class AuthStore {
   // handle login error
   loginError(response) {
     console.log("API error:", response);
-    this.setState({ accessToken: null, refreshToken: null, error: 'Login Failed', user: null});
+    this.setState({ accessToken: null, refreshToken: null, error: 'Login failed!', user: null});
   }
 
 

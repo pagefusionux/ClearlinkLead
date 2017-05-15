@@ -1,0 +1,17 @@
+/*
+ * override foundation button
+ */
+
+button {
+
+  &.button {
+    &.alert {
+      color: $white;
+
+      &:hover, &:focus, &:active {
+        color: $white;
+      }
+    }
+  }
+
+}

@@ -1,48 +1,45 @@
 import axios from 'axios';
-import update from 'immutability-helper';
 import alt from 'app/alt';
-import UserActions from 'app/actions/UserActions';
+import update from 'immutability-helper';
+import UserTypesActions from 'app/actions/UserTypesActions';
 import Config from 'app/config';
-const shortid = require('shortid');
 import {getMySQLTimestamp} from 'app/helpers.js';
-//const data = require('json!app/components/tabs/Users/data.json');
 
-
-class UserStore {
+class UserTypesStore {
   constructor() {
-    this.bindActions(UserActions);
+    this.bindActions(UserTypesActions);
 
     // state
-    this.users = [];
+    this.userTypes = [];
     this.error = null;
   }
 
-  getUsers() {
+  getUserTypes() {
     axios
-    .get(`${Config.apiUrl}/users`)
+    .get(`${Config.apiUrl}/userTypes`)
     .then(response => {
-      console.log("getAll(): ", response.data.data);
+      console.log("getUserTypes(): ", response.data.data);
 
-      setTimeout(() => { // simulate network latency
+      //setTimeout(() => { // simulate network latency
         this.setState({
-          users: response.data.data,
+          userTypes: response.data.data,
           error: null
         });
-      }, 500);
+      //}, 500);
 
     }).catch(response => {
       this.setState({
-        users: null,
+        userTypes: null,
         error: response
       });
     });
   }
 
 
-  // update entire users array (new table)
-  updateUsers({index, updated, users}) {
+  // update entire userTypes array (new table)
+  updateUserTypes({index, updated, userTypes}) {
 
-    let rows = users.slice();
+    let rows = userTypes.slice();
     let updatedRow = [];
     let rowToUpdate = [];
     let fields = {};
@@ -58,11 +55,7 @@ class UserStore {
     // user fields to send via API
     fields = {
       id: rows[index].id,
-      name: rows[index].name,
-      email: rows[index].email,
-      notes: rows[index].notes,
-      password: rows[index].password,
-      user_type_id: rows[index].user_type_id
+      title: rows[index].title
     };
 
     // set axios auth header
@@ -77,27 +70,25 @@ class UserStore {
 
     // update row in users table
     axios
-    .put(`${Config.apiUrl}/users/${fields.id}`, fields, config)
+    .put(`${Config.apiUrl}/userTypes/${fields.id}`, fields, config)
     .then(response => {
       console.log("API update success:", response);
     }).catch(response => {
       return console.log("API update error: ", response);
     });
 
-    //console.log(`UserStore.js: Updated rows[${index}]:`, rows[index]);
-
     this.setState({
-      users: rows,
+      userTypes: rows,
       error: null
     });
   }
 
 
-  // delete user
-  deleteUser({index, users}) {
+  // delete userType
+  deleteUserType({index, userTypes}) {
 
-    // get user id
-    const userId = users[index].id;
+    // get userType id
+    const userTypeId = userTypes[index].id;
 
     const accessToken = localStorage.getItem('access_token');
 
@@ -110,12 +101,12 @@ class UserStore {
 
     // delete row in users table
     axios
-    .delete(`${Config.apiUrl}/users/${userId}`, config)
+    .delete(`${Config.apiUrl}/userTypes/${userTypeId}`, config)
     .then(response => {
-      console.log("API Delete success:", response);
+      //console.log("API Delete success:", response);
 
       this.setState({
-        users: update(users, {$splice: [[index, 1]]}),
+        userTypes: update(userTypes, {$splice: [[index, 1]]}),
         error: null
       });
 
@@ -124,19 +115,15 @@ class UserStore {
     });
   }
 
-  // insert user
-  insertUser({index, users}) {
+  // insert user type
+  insertUserType({index, userTypes}) {
 
     // get access token
     const accessToken = localStorage.getItem('access_token');
 
-    // user fields to insert
+    // fields to update
     const fields = {
-      name: 'New User ',
-      email: 'new.user' + shortid.generate() + '@clearlink.com',
-      password: 'secret',
-      notes: 'Enter notes here...',
-      user_type_id: 1,
+      title: 'New Type',
       created_at: getMySQLTimestamp(),
       updated_at: getMySQLTimestamp()
     };
@@ -151,20 +138,24 @@ class UserStore {
       }
     };
 
-    // insert row in users table
+    // insert row in user_types table
     axios
-    .post(`${Config.apiUrl}/users`, fields, config)
+    .post(`${Config.apiUrl}/userTypes`, fields, config)
     .then(response => {
 
-      //console.log('API insert success (last insert id):', response.data.last_insert_id);
+      console.log('API insert success (last insert id):', response.data);
 
       const updatedFields = {
         id: response.data.last_insert_id,
         ...fields
       };
 
+      const newUserTypes = update([...userTypes], {$splice: [[index, 0, updatedFields]]});
+
+      //console.log("newUserTypes:",newUserTypes);
+
       this.setState({
-        users: update([...users], {$splice: [[index, 0, updatedFields]]}),
+        userTypes: newUserTypes,
         error: null
       });
 
@@ -178,4 +169,4 @@ class UserStore {
 
 } // end class
 
-export default alt.createStore(UserStore, 'UserStore');
+export default alt.createStore(UserTypesStore, 'UserTypesStore');

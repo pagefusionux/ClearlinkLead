@@ -43,16 +43,17 @@ export default class Nav extends Component {
             <ul className="medium-horizontal vertical dropdown menu" data-responsive-menu="accordion medium-dropdown">
               {/*
               <li className="has-submenu">
-                <Link to="/Page1" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>Page1</Link>
+               <Link to="/" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>People</Link>
                 <ul className="submenu menu vertical nested" data-submenu>
-                  <li><Link to="/Page4" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>Page4</Link></li>
-                  <li><Link to="/Page5" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>Page5</Link></li>
+                  <li><Link to="/ManageUserTypes" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>Manage Roles</Link></li>
                 </ul>
               </li>
-               */}
-              <li><Link to="/" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>Users</Link></li>
-              <li><Link to="/Page2" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>Page2</Link></li>
-              <li><Link to="/Page3" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>Page3</Link></li>
+              */}
+              <li><Link to="/" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>People</Link></li>
+              <li><Link to="/Page2" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>Brands</Link></li>
+              <li><Link to="/Page3" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>Meetings</Link></li>
+              <li><Link to="/Page4" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>Initiatives</Link></li>
+              <li><Link to="/Page5" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>Timelines</Link></li>
             </ul>
           </div>
         </div>

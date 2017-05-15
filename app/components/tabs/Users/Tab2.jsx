@@ -1,14 +1,13 @@
 import React, {Component} from 'react';
 import ReactTable from 'react-table';
-import UserStore from 'app/stores/UserStore';
-import UserActions from 'app/actions/UserActions';
 import UserTypesStore from 'app/stores/UserTypesStore';
 import UserTypesActions from 'app/actions/UserTypesActions';
 import connectToStores from 'alt/utils/connectToStores';
-import FormUsers from 'app/components/forms/FormUsers';
+import FormUserTypes from 'app/components/forms/FormUserTypes';
 
-// Team
-class Tab1 extends Component {
+// over
+
+class ManageUserTypes extends Component {
   constructor(props) {
     super(props);
 
@@ -17,59 +16,46 @@ class Tab1 extends Component {
       accessor: 'id',
       maxWidth: '50'
     },{
-      Header: 'Name',
-      accessor: 'name',
+      Header: 'Title',
+      accessor: 'title',
       textAlign: 'left'
-    }, {
-      Header: 'Email',
-      accessor: 'email'
     }];
 
   }
 
   static getStores() {
-    return [UserStore, UserTypesStore];
+    return [UserTypesStore];
   }
 
   static getPropsFromStores() {
     return {
-      ...UserStore.getState(),
-      ...UserTypesStore.getState()
+      userTypes: UserTypesStore.getState().userTypes,
+      userTypesError: UserTypesStore.getState().error
     }
   }
 
   componentWillMount() {
-    if (UserStore.getState().users.length === 0) {
-      UserActions.getUsers();
-    }
-    if (UserTypesStore.getState().userTypes.length === 0) {
-      UserTypesActions.getUserTypes();
-    }
+    UserTypesActions.getUserTypes();
   }
 
-  addNewUser() {
+  addNewUserType() {
     // update state
-    UserActions.insertUser({
-      index: UserStore.getState().users.length,
-      users: UserStore.getState().users
+    UserTypesActions.insertUser({
+      //index: this.props.data.row._index,
+      index: UserTypesStore.getState().userTypes.length,
+      users: UserTypesStore.getState().userTypes
     });
   }
 
   render() {
 
-    //console.log('users[0] at render():', this.props.users[0]);
-
     // default output
     let output = '';
-
-    // Users: API error
-    if (this.props.error) { return <div>{this.props.error}</div>; }
 
     // UserTypes: API error
     if (this.props.userTypesError) { return <div>{this.props.userTypesError}</div>; }
 
-    if (!this.props.users.length
-        || !this.props.userTypes.length) {
+    if (!this.props.userTypes.length) {
       output = (
         <div className="loading"><img src="images/loading.svg" /></div>
       );
@@ -81,17 +67,17 @@ class Tab1 extends Component {
           <ReactTable
             className="-striped -highlight"
             previousText="Back"
-            data={this.props.users}
+            data={this.props.userTypes}
             columns={this.columns}
             showPageSizeOptions={false}
-            defaultPageSize={15}
+            defaultPageSize={10}
             SubComponent={(row) => {
-              const formData = this.props.users[row.index];
+              //console.log('this row:', row);
+              const formData = this.props.userTypes[row.index];
 
               return (
-                <FormUsers
+                <FormUserTypes
                   data={formData}
-                  userTypes={this.props.userTypes}
                   index={row.index}
                 />
               )
@@ -105,4 +91,4 @@ class Tab1 extends Component {
   }
 }
 
-export default connectToStores(Tab1);
+export default connectToStores(ManageUserTypes);

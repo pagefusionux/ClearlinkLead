@@ -84,16 +84,6 @@ class FormUsers extends Component {
     });
   }
 
-  onContentStateChange(contentState) {
-
-    this.notes = contentState;
-    /*
-    this.setState({
-      contentState,
-    });
-    */
-  }
-
   render() {
 
     //console.log("ID:", this.props.data);

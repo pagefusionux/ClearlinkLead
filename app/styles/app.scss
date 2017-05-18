@@ -1,13 +1,8 @@
-/*************************************
- * base
- ************************************/
 @import "base/colors";
 @import "base/fonts";
 
 
-/*************************************
- * foundation
- ************************************/
+// foundation //////////////////////////////////////////////////////
 @import "base/foundation-settings";
 @import "foundation";
 //@include foundation-everything;
@@ -54,9 +49,8 @@
 // wrapper (acts as global to area beneath nav)
 @import "base/wrapper";
 
-/*************************************
- * components
- ************************************/
+
+// components //////////////////////////////////////////////////////
 // pages
 @import "components/pages/Pages"; // global for all pages
 @import "components/pages/Login";

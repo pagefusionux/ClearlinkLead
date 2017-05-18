@@ -1,6 +1,10 @@
 const webpack = require('webpack');
 const path = require('path');
 const envFile = require('node-env-file');
+const ManifestPlugin = require('webpack-manifest-plugin');
+const WebpackMd5Hash = require('webpack-md5-hash');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+//const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
@@ -12,11 +16,20 @@ try {
 }
 
 module.exports = {
-  entry: [
-    'script!jquery/dist/jquery.min.js',
-    'script!foundation-sites/dist/js/foundation.min.js',
-    './app/app.jsx'
-  ],
+  entry: {
+    app: [
+      path.join(__dirname, './app/app')
+    ],
+    vendor: [
+      'script!jquery/dist/jquery.min.js',
+      'script!foundation-sites/dist/js/foundation.min.js'
+    ]
+  },
+  output: {
+    path: path.join(__dirname, "./public"),
+    filename: '[name].[chunkhash].js',
+    chunkFilename: '[name].[chunkhash].js'
+  },
   externals: {
     jquery: 'jQuery'
   },
@@ -38,13 +51,26 @@ module.exports = {
         CLIENT_ID: JSON.stringify(process.env.CLIENT_ID),
         CLIENT_SECRET: JSON.stringify(process.env.CLIENT_SECRET),
       }
-    })
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor',
+      minChunks: ({ resource }) => /node_modules/.test(resource),
+    }),
+    //new webpack.optimize.CommonsChunkPlugin(),
+    new WebpackMd5Hash(),
+    new ManifestPlugin({
+      fileName: 'build-manifest.json'
+    }),
+    new HtmlWebpackPlugin({
+      hash: true,
+      inject: 'body',
+      template: 'public/index.ejs'
+    }),
+    //new ExtractTextPlugin('public/style.css', {
+      //allChunks: true
+    //}),
   ],
-  output: {
-    path: __dirname,
-    filename: './public/bundle.js',
-    publicPath: '/'
-  },
+
   resolve: {
     root: __dirname,
     modulesDirectories: [
@@ -53,7 +79,6 @@ module.exports = {
     ],
     alias: {
       app: 'app', // the alias to end all aliases
-      applicationStyles: 'app/styles/app.scss',
     },
     extensions: ['', '.js', '.jsx']
   },
@@ -74,7 +99,16 @@ module.exports = {
           'file-loader?emitFile=false&name=[path][name].[ext]',
           'image-webpack-loader?bypassOnDebug'
         ]
-      }
+      },
+      /*
+      {
+        test: /\.scss$/,
+        exclude: /node_modules/,
+        loader: ExtractTextPlugin.extract(
+          ['style-loader', 'css-loader', 'sass-loader']
+        )
+      },
+      */
     ]
   },
   sassLoader: {

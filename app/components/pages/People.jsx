@@ -6,7 +6,7 @@ import Tab2 from 'app/components/tabs/Users/Tab2';
 
 Tabs.setUseDefaultStyles(0);
 
-export default class Users extends Component {
+export default class People extends Component {
   constructor(props) {
     super(props);
   }

@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import UserStore from 'app/stores/UserStore';
 import UserActions from 'app/actions/UserActions';
 import connectToStores from 'alt/utils/connectToStores';
@@ -84,10 +84,20 @@ class FormUsers extends Component {
     });
   }
 
+  onContentStateChange(contentState) {
+
+    this.notes = contentState;
+    /*
+    this.setState({
+      contentState,
+    });
+    */
+  }
+
   render() {
 
     //console.log("ID:", this.props.data);
-    console.log('userTypes at render:', this.props.userTypes);
+    //console.log('userTypes at render:', this.props.userTypes);
 
     // create select component from userTypes array
     let userTypeSelectOptions = [];
@@ -103,7 +113,7 @@ class FormUsers extends Component {
       );
     }
 
-    console.log('userTypeSelectOptions:', userTypeSelectOptions);
+    //console.log('userTypeSelectOptions:', userTypeSelectOptions);
 
     return (
       <div className="form-wrapper">

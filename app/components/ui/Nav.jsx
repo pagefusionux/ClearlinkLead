@@ -50,10 +50,12 @@ export default class Nav extends Component {
               </li>
               */}
               <li><Link to="/" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>People</Link></li>
-              <li><Link to="/Page2" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>Brands</Link></li>
-              <li><Link to="/Page3" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>Meetings</Link></li>
+              <li><Link to="/Meetings" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>Meetings</Link></li>
+              <li><Link to="/Domains" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>Domains</Link></li>
+              {/*
               <li><Link to="/Page4" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>Initiatives</Link></li>
               <li><Link to="/Page5" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>Timelines</Link></li>
+              */}
             </ul>
           </div>
         </div>

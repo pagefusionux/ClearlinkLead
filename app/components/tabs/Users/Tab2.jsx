@@ -35,7 +35,9 @@ class ManageUserTypes extends Component {
   }
 
   componentWillMount() {
-    UserTypesActions.getUserTypes();
+    if (UserTypesStore.getState().userTypes.length === 0) {
+      UserTypesActions.getUserTypes();
+    }
   }
 
   addNewUserType() {

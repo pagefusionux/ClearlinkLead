@@ -60,7 +60,9 @@
 // pages
 @import "components/pages/Pages"; // global for all pages
 @import "components/pages/Login";
-@import "components/pages/Users";
+@import "components/pages/People";
+@import "components/pages/Meetings";
+@import "components/pages/Domains";
 
 // tabs
 @import "components/tabs/Tabs"; // global for all tabs
@@ -68,7 +70,10 @@
 // ui
 @import "components/ui/Nav";
 @import "components/ui/ReactTable";
+@import "components/ui/ReactDraftWysiwyg";
+@import "components/ui/Forms";
 @import "components/ui/FormUsers";
+@import "components/ui/FormUserTypes";
 @import "components/ui/button";
 
 

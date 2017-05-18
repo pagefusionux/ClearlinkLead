@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 
-export default class Page2 extends Component {
+export default class Domains extends Component {
   render() {
     return (
       <div>
-        This is Page2
+        This is the Domains page.
       </div>
     );
   }

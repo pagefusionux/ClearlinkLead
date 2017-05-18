@@ -7,12 +7,10 @@ import AuthActions from 'app/actions/AuthActions';
 import AuthStore from 'app/stores/AuthStore';
 import Wrapper from 'app/components/Wrapper';
 import Login from 'app/components/pages/Login';
-import Users from 'app/components/pages/Users';
+import People from 'app/components/pages/People';
 import ManageUserTypes from 'app/components/tabs/Users/Tab2';
-import Page2 from 'app/components/pages/Page2';
-import Page3 from 'app/components/pages/Page3';
-import Page4 from 'app/components/pages/Page4';
-import Page5 from 'app/components/pages/Page5';
+import Meetings from 'app/components/pages/Meetings';
+import Domains from 'app/components/pages/Domains';
 
 // try to get user info from local storage value
 AuthActions.localLogin();
@@ -52,12 +50,10 @@ require('style!css!sass!app/styles/app.scss');
 ReactDOM.render(
   <Router history={history}>
     <Route component={Wrapper} onEnter={requireLogin}>
-      <Route path="/" component={Users}/>
+      <Route path="/" component={People}/>
       <Route path="/ManageUserTypes" component={ManageUserTypes}/>
-      <Route path="/page2" component={Page2}/>
-      <Route path="/page3" component={Page3}/>
-      <Route path="/page4" component={Page4}/>
-      <Route path="/page5" component={Page5}/>
+      <Route path="/Meetings" component={Meetings}/>
+      <Route path="/Domains" component={Domains}/>
     </Route>
     <Route path="/login" component={Login}/>
   </Router>,

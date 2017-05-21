@@ -46,7 +46,14 @@ module.exports = {
         CLIENT_ID: JSON.stringify(process.env.CLIENT_ID),
         CLIENT_SECRET: JSON.stringify(process.env.CLIENT_SECRET),
       }
+    }),
+    new webpack.LoaderOptionsPlugin({
+      // test: /\.xxx$/, // may apply this only for some modules
+      options: {
+        sassLoader:
+      }
     })
+
   ],
   resolve: {
     root: __dirname,

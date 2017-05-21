@@ -10,7 +10,7 @@ export default class Nav extends Component {
     AuthActions.logout();
   }
   componentDidMount() {
-    //$(document).foundation();
+    $(document).foundation();
   }
   componentDidUpdate() {
     //$(document).foundation();

@@ -17,7 +17,9 @@ try {
 
 const config = {
   entry: {
-    app: './app/app',
+    app: [
+      './app/app'
+    ],
     vendor: [
       'script-loader!jquery/dist/jquery.min.js',
       'script-loader!foundation-sites/dist/js/foundation.min.js'
@@ -125,6 +127,9 @@ const config = {
   node: {
     fs: 'empty'
   },
+  stats: {
+    warnings: false
+  }
   //devtool: 'source-map'
 
   //devtool: process.env.NODE_ENV === 'production' ? undefined : 'cheap-module-eval-source-map'

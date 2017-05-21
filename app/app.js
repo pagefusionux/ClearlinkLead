@@ -12,7 +12,9 @@ import ManageUserTypes from 'components/tabs/Users/Tab2';
 import Meetings from 'components/pages/Meetings';
 import Domains from 'components/pages/Domains';
 import 'script-loader!jquery';
-//import 'script-loader!foundation-sites';
+import 'script-loader!foundation-sites';
+import 'script-loader!jquery/dist/jquery.min.js';
+import 'script-loader!foundation-sites/dist/js/foundation.min.js';
 import 'styles/app.scss';
 
 // try to get user info from local storage value

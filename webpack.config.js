@@ -48,11 +48,15 @@ module.exports = {
       }
     }),
     new webpack.LoaderOptionsPlugin({
-      // test: /\.xxx$/, // may apply this only for some modules
+      debug: true,
       options: {
-        sassLoader:
+        sassLoader: {
+          includePaths: [
+            'node_modules/foundation-sites/scss'
+          ]
+        }
       }
-    })
+    }),
 
   ],
   resolve: {
@@ -78,11 +82,6 @@ module.exports = {
           'image-webpack-loader?bypassOnDebug'
         ]
       }
-    ]
-  },
-  sassLoader: {
-    includePaths: [
-      path.resolve(__dirname, './node_modules/foundation-sites/scss')
     ]
   },
   devServer: {

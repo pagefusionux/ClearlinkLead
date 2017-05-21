@@ -51,6 +51,6 @@
     "webpack": "^1.12.13"
   },
   "devDependencies": {
-
+    "happypack": "^3.1.0"
   }
 }

@@ -50,13 +50,7 @@ module.exports = {
   ],
   resolve: {
     root: __dirname,
-    modulesDirectories: [
-      'node_modules',
-      './app/components',
-    ],
-    alias: {
-      app: 'app', // the alias to end all aliases
-    },
+    modulesDirectories: ['node_modules'],
     extensions: ['', '.js', '.jsx']
   },
   module: {

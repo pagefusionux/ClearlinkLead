@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import AuthStore from 'app/stores/AuthStore';
-import AuthActions from 'app/actions/AuthActions';
+import AuthStore from 'stores/AuthStore';
+import AuthActions from 'actions/AuthActions';
 import connectToStores from 'alt/utils/connectToStores';
 
 export class Login extends Component {

@@ -1,10 +1,10 @@
 const webpack = require('webpack');
 const path = require('path');
 const envFile = require('node-env-file');
-const ManifestPlugin = require('webpack-manifest-plugin');
+//const ManifestPlugin = require('webpack-manifest-plugin');
 const WebpackMd5Hash = require('webpack-md5-hash');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-//const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
@@ -15,20 +15,20 @@ try {
 
 }
 
-module.exports = {
+const config = {
   entry: {
-    app: [
-      path.join(__dirname, './app/app')
-    ],
+    app: './app/app',
     vendor: [
-      'script!jquery/dist/jquery.min.js',
-      'script!foundation-sites/dist/js/foundation.min.js'
+      'script-loader!jquery/dist/jquery.min.js',
+      'script-loader!foundation-sites/dist/js/foundation.min.js'
     ]
   },
   output: {
     path: path.join(__dirname, "./public"),
-    filename: '[name].[chunkhash].js',
-    chunkFilename: '[name].[chunkhash].js'
+    //filename: '[name].[chunkhash].js',
+    //chunkFilename: '[name].[chunkhash].js'
+    filename: '[name].js',
+    chunkFilename: '[name].js'
   },
   externals: {
     jquery: 'jQuery'
@@ -39,6 +39,7 @@ module.exports = {
       'jQuery': 'jquery'
     }),
     new webpack.optimize.UglifyJsPlugin({
+      sourceMap: true,
       compressor: {
         warnings: false
       }
@@ -56,64 +57,66 @@ module.exports = {
       name: 'vendor',
       minChunks: ({ resource }) => /node_modules/.test(resource),
     }),
-    //new webpack.optimize.CommonsChunkPlugin(),
     new WebpackMd5Hash(),
-    new ManifestPlugin({
-      fileName: 'build-manifest.json'
-    }),
     new HtmlWebpackPlugin({
       hash: true,
       inject: 'body',
       template: 'public/index.ejs'
     }),
-    //new ExtractTextPlugin('public/style.css', {
-      //allChunks: true
-    //}),
+    new ExtractTextPlugin({
+      //filename: "[name].[contenthash].css",
+      filename: "[name].css",
+      //disable: process.env.NODE_ENV === "development"
+    })
   ],
 
   resolve: {
-    root: __dirname,
-    modulesDirectories: [
-      'node_modules',
-      './app/components',
-    ],
-    alias: {
-      app: 'app', // the alias to end all aliases
-    },
-    extensions: ['', '.js', '.jsx']
+    extensions: ['.js', '.jsx'],
+    modules: [
+      path.join(__dirname, 'app'),
+      'node_modules'
+    ]
   },
   module: {
-    loaders: [
+    rules: [
       {
-        loader: 'babel-loader',
-        query: {
-          presets: ['react', 'es2015', 'stage-0']
-        },
-        test: /\.jsx?$/,
-        exclude: /(node_modules|bower_components|.idea)/
+        test: /\.js?$/,
+        include: path.resolve(__dirname, 'app'),
+        use: [{
+          loader: 'babel-loader',
+          options: {
+            presets: [
+              ['es2015', { modules: false }],
+              'stage-0',
+              'react'
+            ]
+          }
+        }]
       },
       {
         test: /\.(jpe?g|png|gif|svg)$/i,
-        loaders: [
+        use: [
           //'file-loader?hash=sha512&digest=hex&name=/public/images/[hash].[ext]',
           'file-loader?emitFile=false&name=[path][name].[ext]',
           'image-webpack-loader?bypassOnDebug'
         ]
       },
-      /*
       {
         test: /\.scss$/,
-        exclude: /node_modules/,
-        loader: ExtractTextPlugin.extract(
-          ['style-loader', 'css-loader', 'sass-loader']
-        )
-      },
-      */
-    ]
-  },
-  sassLoader: {
-    includePaths: [
-      path.resolve(__dirname, './node_modules/foundation-sites/scss')
+        use: ExtractTextPlugin.extract({
+          fallback: "style-loader",
+          use: [{
+            loader: "css-loader"
+          }, {
+            loader: "sass-loader",
+            options: {
+              includePaths: [
+                "node_modules/foundation-sites/scss"
+              ]
+            }
+          }]
+        })
+      }
     ]
   },
   devServer: {
@@ -122,7 +125,11 @@ module.exports = {
   node: {
     fs: 'empty'
   },
+  //devtool: 'source-map'
+
   //devtool: process.env.NODE_ENV === 'production' ? undefined : 'cheap-module-eval-source-map'
 };
+
+module.exports = config;
 
 // $ NODE_ENV=production webpack -p

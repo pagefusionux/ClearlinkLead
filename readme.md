@@ -1,4 +1,4 @@
-# ReactTodo
+# ClearlinkLead
 
 After cloning the ReactBoilerplate3 repository and downloading its '.git' directory, you can do
 the following commands to change the destination of origin to a new 'ReactToDo' repo for this project
@@ -12,7 +12,7 @@ Add UUID library for unique IDs:
 - `$ npm install node-uuid --save-dev`
 
 Add existence of api folder to webpack:
-- edit webpack.config.jsx, add under modulesDirectories array:
+- edit webpack.config.js, add under modulesDirectories array:
   - './app/api'
 
 See momentjs.com for adding date functionality:
@@ -24,19 +24,19 @@ Integrating Redux:
 - `$ npm install redux@3.3.1 react-redux@4.4.1 deep-freeze-strict --save-dev`
 - Add 'app/actions' folder:
   - Create 'app/actions/actions.jsx'
-  - Change webpack.config.jsx to add alias:
+  - Change webpack.config.js to add alias:
   
     `actions: 'app/actions/actions.jsx',`
   
 - Add 'app/reducers' folder:
   - Create 'app/reducers/reducers.jsx'
-  - Change webpack.config.jsx to add alias:
+  - Change webpack.config.js to add alias:
   
     `reducers: 'app/reducers/reducers.jsx',`
 
 - Add 'app/store' folder:
   - Create 'app/store/configureStore.jsx'
-  - Change webpack.config.jsx to add alias:
+  - Change webpack.config.js to add alias:
     
     `configureStore: 'app/store/configureStore.jsx',`
 
@@ -47,7 +47,7 @@ Setting up Firebase:
 - `$ npm install firebase@3.0.2` --save
 - add 'app/firebase' folder
   - add 'app/firebase/routes.jsx'
-  - add to webpack.config.jsx under 'alias':
+  - add to webpack.config.js under 'alias':
   
   ````
   app: 'app', // the alias to end all aliases

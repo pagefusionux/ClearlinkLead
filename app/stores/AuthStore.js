@@ -1,11 +1,11 @@
 import axios from 'axios';
 import Uri from 'jsuri';
 
-import alt from 'app/alt';
-import AuthActions from 'app/actions/AuthActions';
-import InterceptorUtil from 'app/utils/InterceptorUtil';
-import Config from 'app/config';
-import history from 'app/history';
+import alt from 'alt';
+import AuthActions from 'actions/AuthActions';
+import InterceptorUtil from 'utils/InterceptorUtil';
+import Config from 'config';
+import history from 'history';
 
 class AuthStore {
   constructor() {

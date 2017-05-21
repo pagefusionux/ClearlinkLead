@@ -1,4 +1,4 @@
-import alt from 'app/alt';
+import alt from 'alt';
 
 class UserTypesActions {
   constructor() {

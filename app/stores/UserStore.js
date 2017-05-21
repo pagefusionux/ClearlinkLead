@@ -1,11 +1,11 @@
 import axios from 'axios';
 import update from 'immutability-helper';
-import alt from 'app/alt';
-import UserActions from 'app/actions/UserActions';
-import Config from 'app/config';
-const shortid = require('shortid');
-import {getMySQLTimestamp} from 'app/helpers.js';
-//const data = require('json!app/components/tabs/Users/data.json');
+import alt from 'alt';
+import UserActions from 'actions/UserActions';
+import Config from 'config';
+import shortid from 'shortid';
+import {getMySQLTimestamp} from 'helpers.js';
+//const data = require('json!components/tabs/Users/data.json');
 
 
 class UserStore {

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import Nav from 'app/components/ui/Nav';
+import Nav from 'components/ui/Nav';
 
 export default class Wrapper extends Component {
   render () {

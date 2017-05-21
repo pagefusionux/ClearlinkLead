@@ -1,9 +1,9 @@
 import axios from 'axios';
-import alt from 'app/alt';
+import alt from 'alt';
 import update from 'immutability-helper';
-import UserTypesActions from 'app/actions/UserTypesActions';
-import Config from 'app/config';
-import {getMySQLTimestamp} from 'app/helpers.js';
+import UserTypesActions from 'actions/UserTypesActions';
+import Config from 'config';
+import {getMySQLTimestamp} from 'helpers.js';
 
 class UserTypesStore {
   constructor() {

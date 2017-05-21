@@ -12,10 +12,10 @@
 * VIEW -> {DATA} -> ACTIONS -> STORE -> VIEW (updated)
 * */
 
-import Alt from 'alt';
+import Alt from 'alt/lib';
 const alt = new Alt();
 
-const chromeDebug = require('alt/utils/chromeDebug');
+import chromeDebug from 'alt/utils/chromeDebug';
 chromeDebug(alt);
 
 export default alt;

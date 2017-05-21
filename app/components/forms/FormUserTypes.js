@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import UserTypesStore from 'app/stores/UserTypesStore';
-import UserTypesActions from 'app/actions/UserTypesActions';
+import UserTypesStore from 'stores/UserTypesStore';
+import UserTypesActions from 'actions/UserTypesActions';
 import connectToStores from 'alt/utils/connectToStores';
-import {convertTimestamp} from 'app/helpers.js';
+import {convertTimestamp} from 'helpers.js';
 
 class FormUserTypes extends Component {
   constructor(props) {

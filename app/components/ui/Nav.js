@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router';
-import AuthActions from 'app/actions/AuthActions';
+import AuthActions from 'actions/AuthActions';
 
 export default class Nav extends Component {
   constructor(props) {
@@ -10,7 +10,7 @@ export default class Nav extends Component {
     AuthActions.logout();
   }
   componentDidMount() {
-    $(document).foundation();
+    //$(document).foundation();
   }
   componentDidUpdate() {
     //$(document).foundation();

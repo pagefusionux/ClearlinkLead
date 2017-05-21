@@ -1,4 +1,4 @@
-const moment = require('moment');
+import moment from 'moment';
 
 export const convertTimestamp = (timestamp, format='MMM D, YYYY; h:mm a') => {
   const t = timestamp.split(/[- :]/); // split timestamp into [ Y, M, D, h, m, s ]

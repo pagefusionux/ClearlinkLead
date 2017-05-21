@@ -1,14 +1,17 @@
 import React, {Component} from 'react';
 import {Tab, Tabs, TabPanel, TabList} from 'react-tabs';
 
-import Tab1 from 'app/components/tabs/Users/Tab1';
-import Tab2 from 'app/components/tabs/Users/Tab2';
+import Tab1 from 'components/tabs/Users/Tab1';
+import Tab2 from 'components/tabs/Users/Tab2';
 
 Tabs.setUseDefaultStyles(0);
 
 export default class People extends Component {
   constructor(props) {
     super(props);
+  }
+  componentDidMount() {
+    //$(document).foundation();
   }
   render() {
     return (

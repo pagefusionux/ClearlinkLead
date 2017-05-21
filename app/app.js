@@ -1,16 +1,19 @@
 import React from 'react';
-import ReactDOM  from 'react-dom';
+import ReactDOM from 'react-dom';
 import {Route, Router} from 'react-router';
 import axios from 'axios';
-import history from 'app/history';
-import AuthActions from 'app/actions/AuthActions';
-import AuthStore from 'app/stores/AuthStore';
-import Wrapper from 'app/components/Wrapper';
-import Login from 'app/components/pages/Login';
-import People from 'app/components/pages/People';
-import ManageUserTypes from 'app/components/tabs/Users/Tab2';
-import Meetings from 'app/components/pages/Meetings';
-import Domains from 'app/components/pages/Domains';
+import history from 'history';
+import AuthActions from 'actions/AuthActions';
+import AuthStore from 'stores/AuthStore';
+import Wrapper from 'components/Wrapper';
+import Login from 'components/pages/Login';
+import People from 'components/pages/People';
+import ManageUserTypes from 'components/tabs/Users/Tab2';
+import Meetings from 'components/pages/Meetings';
+import Domains from 'components/pages/Domains';
+import 'script-loader!jquery';
+//import 'script-loader!foundation-sites';
+import 'styles/app.scss';
 
 // try to get user info from local storage value
 AuthActions.localLogin();
@@ -39,12 +42,6 @@ const requireLogin = (nextState, replaceState) => {
     replaceState({ nextPathname: nextState.location.pathname }, '/login')
   }
 };
-
-// load Foundation
-$(document).foundation();
-
-// load base app css
-require('style!css!sass!app/styles/app.scss');
 
 // router implementation
 ReactDOM.render(

@@ -5,7 +5,6 @@ import UserTypesActions from 'app/actions/UserTypesActions';
 import connectToStores from 'alt/utils/connectToStores';
 import FormUserTypes from 'app/components/forms/FormUserTypes';
 
-// over
 
 class ManageUserTypes extends Component {
   constructor(props) {

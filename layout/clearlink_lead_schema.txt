@@ -1,0 +1,122 @@
+Clearlink Lead App Navigation
+——
+- People
+  - All
+  - Roles
+
+- Meetings
+  - 1x1s
+
+- Clients
+  - Verticals
+  - Brands
+  - Domains
+-------------------------------------------------------
+Database Schema:
+
+users (people)
+---
+id
+name
+email
+password
+notes
+user_type_id (foreign key: user_types_id_foreign)
++vertical_id (foreign key: verticals_id_foreign); 
+	derived:
+	->director, 
+	->brand(s), 
+	->domain(s)->domain_collaborators,
+	->assigned designer(s)
+	->assigned OMM
+	->assigned PM
+	->assigned SEO
+	->assigned Copy
+created_at
+updated_at
+deleted_at
+
+
+verticals
+---
+id
+director_user_id (foreign key: users_id_foreign)
+name
+jira_name
+notes
+created_at
+updated_at
+deleted_at
+
+
+brands (clients)
+---
+id
+vertical_id (foreign key: verticals_id_foreign)
+name
+abbrev
+notes
+created_at
+updated_at
+deleted_at
+
+
+domains
+---
+id
+brand_id (foreign key: brands_id_foreign)
+url
+cms_version
+repo_loc (Git|SVN)
+git_repo
+git_linked_repo
+notes
+created_at
+updated_at
+deleted_at
+	derived:
+	->domain_collaborators (pivot table)
+
+
+domain_collaborators (pivot table)
+---
+user_id (foreign key: users_id_foreign)
+domain_id (foreign key: domains_id_foreign)
+
+
+meetings
+---
+id
+title
+type
+	(team_1x1)
+	(manager_1x1)
+	(other)
+notes
+held_on
+created_at
+updated_at
+deleted_at
+	derived:
+	->meeting_collaborators (pivot table)
+	->meeting_action_items
+
+
+meeting_collaborators (pivot table) --- (need multiple select field (vendor script))
+---
+user_id (foreign key: users_id_foreign)
+meeting_id (foreign key: meetings_id_foreign)
+
+
+items
+---
+id
+meeting_id (foreign key: meetings_id_foreign)
+descr
+due_on
+done (boolean)
+created_at
+updated_at
+deleted_at
+
+

@@ -17,8 +17,16 @@ module.exports = {
       path.join(__dirname, './app/app')
     ],
     vendor: [
-      'script!jquery/dist/jquery.min.js',
-      'script!foundation-sites/dist/js/foundation.min.js'
+      'script-loader!jquery/dist/jquery.min.js',
+      'script-loader!foundation-sites/dist/js/foundation.min.js',
+      'react',
+      'react-dom',
+      'react-router',
+      'react-table',
+      'foundation-sites',
+      'jquery',
+      'axios',
+      'alt'
     ]
   },
   output: {
@@ -46,22 +54,19 @@ module.exports = {
         CLIENT_ID: JSON.stringify(process.env.CLIENT_ID),
         CLIENT_SECRET: JSON.stringify(process.env.CLIENT_SECRET),
       }
-    }),
-    new webpack.LoaderOptionsPlugin({
-      debug: true,
-      options: {
-        sassLoader: {
-          includePaths: [
-            'node_modules/foundation-sites/scss'
-          ]
-        }
-      }
-    }),
-
+    })
   ],
   resolve: {
     root: __dirname,
-    modulesDirectories: ['node_modules'],
+    modulesDirectories: [
+      'node_modules',
+      './app/components',
+      './app/api',
+    ],
+    alias: {
+      app: 'app',
+      applicationStyles: 'app/styles/app.scss'
+    },
     extensions: ['', '.js', '.jsx']
   },
   module: {
@@ -82,6 +87,11 @@ module.exports = {
           'image-webpack-loader?bypassOnDebug'
         ]
       }
+    ]
+  },
+  sassLoader: {
+    includePaths: [
+      path.resolve(__dirname, './node_modules/foundation-sites/scss')
     ]
   },
   devServer: {
